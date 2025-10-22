@@ -90,7 +90,7 @@ async function openPreviewModal(screwId) {
 
     if (previewVal && String(previewVal).trim() !== '') {
             // Accept either a full data URL or raw base64 (without prefix). Normalize to data URL.
-            let previewVal = String(screw.preview).trim();
+            previewVal = String(previewVal).trim();
             if (!previewVal.startsWith('data:')) {
                 // assume png if not specified
                 if (/^[A-Za-z0-9+/=\s]+$/.test(previewVal.replace(/\s+/g, '')) && previewVal.length > 100) {
