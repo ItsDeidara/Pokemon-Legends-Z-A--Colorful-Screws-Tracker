@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Screws Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Pokemon Legends Z-A: Colorful Screws Tracker</h1>
+        <div class="header-controls">
+            <button class="btn" onclick="openSettings()">Settings</button>
+            <button class="btn" id="openImportBtn">Import JSON</button>
+            <button class="btn" onclick="clearProgress()">Clear Progress</button>
+            <div class="toggle-collected">
+                <input type="checkbox" id="hideCollected" onchange="toggleHideCollected()">
+                <label for="hideCollected">Hide Collected</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="notice">
+        <div class="notice-line">
+            Use this tracker alongside Light's video guide here: <a href="https://youtu.be/70mRtATTHDw" target="_blank" class="notice-link">https://youtu.be/70mRtATTHDw</a>
+        </div>
+        <div class="notice-line">
+            Tracker and JSON data created by StonedModder on X: <a href="https://x.com/StonedModder" target="_blank" class="notice-link">https://x.com/StonedModder</a> - Follow me for more tools!
+        </div>
+        <div class="notice-line">
+            Thank you Light for all of the locations! <a href="https://x.com/light_88_" target="_blank" class="notice-link">https://x.com/light_88_</a>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stats-content">
+            <div class="stat-item">
+                <div>Collected</div>
+                <div class="stat-value"><span id="collected">0</span> / <span id="total">100</span></div>
+            </div>
+            <div class="stat-item">
+                <div>Progress</div>
+                <div class="stat-value"><span id="percentage">0</span>%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="screw-grid" id="screwGrid"></div>
+
+    <div class="footer">
+        <span class="footer-text">Created by StonedModder from</span>
+        <a href="https://x.com/StonedModder" target="_blank" class="footer-link">X / TWITTER</a>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" onclick="closeSettings()">&times;</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Data Controls</h3>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                    <button type="button" class="btn btn-danger" id="hardResetBtn">Hard Reset Data</button>
+                </div>
+                <div style="margin-top:6px;">
+                    <small class="help-text">This app no longer supports importing JSON from remote URLs. Use the Import dialog to upload a local JSON file or use the JSON Assistant to fix data.</small>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Export Data</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="btn" onclick="exportData()">Export & Download</button>
+                    <button class="btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+                    <button class="btn" id="loadBundledDataBtn">Load bundled data</button>
+                    <div style="position: relative; display: inline-block;">
+                        <button class="btn" id="openAssistantBtn">JSON Assistant</button>
+                        <div class="assistant-tooltip">Only use if your JSON is incomplete</div>
+                    </div>
+                </div>
+                <textarea id="exportOutput" rows="8" readonly style="margin-top: 15px;"></textarea>
+                <div id="settingsModalMessage" style="display:none; margin-top:8px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Import JSON</h2>
+                <button class="close-btn" id="closeImportModal">&times;</button>
+            </div>
+            <div class="settings-section">
+                <h3>Upload a JSON file</h3>
+                <div class="input-group">
+                    <input type="file" id="importFileInput" accept="application/json">
+                    <div class="help-text">Select a local JSON file containing an array of screws.</div>
+                </div>
+                <div id="importModalMessage" style="display:none; margin-top:8px;"></div>
+            </div>
+            <div class="settings-section">
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button class="btn" id="importFromFileBtn">Import from file</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Paste JSON</h3>
+                <div class="input-group">
+                    <label>Paste JSON contents below</label>
+                    <textarea id="importPasteTextarea" rows="8" placeholder='Paste the JSON array or object here...'></textarea>
+                    <div class="help-text">Paste your JSON data here and click Import from paste to preview and apply.</div>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button class="btn" id="importFromPasteBtn">Import from paste</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Summary Modal -->
+    <div class="modal summary-modal" id="importSummaryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Import Summary</h2>
+                <button class="close-btn" id="closeImportSummary">&times;</button>
+            </div>
+            <div id="importSummaryBody">
+                <div id="importSummaryMessage" style="display:none; margin-bottom:8px;"></div>
+                <div class="notice-line">Total screws: <strong><span id="summaryTotal">0</span></strong></div>
+                <div class="notice-line">With timestamps: <strong><span id="summaryTimestamps">0</span></strong></div>
+                <div class="notice-line">With notes: <strong><span id="summaryNotes">0</span></strong></div>
+                <div class="help-text" style="margin-top:10px;">Preview (first 3):</div>
+                <pre id="summaryPreview" style="white-space:pre-wrap; background:#0a0a0a; border:1px solid #333; padding:10px; margin-top:8px;">(empty)</pre>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:12px;">
+                <button class="btn" id="confirmImportBtn">Confirm Import</button>
+                <button class="btn btn-danger" id="cancelImportBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Screw Modal -->
+    <div class="modal" id="editScrewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Screw #<span id="editScrewNumber"></span></h2>
+                <button class="close-btn" onclick="closeEditScrew()">&times;</button>
+            </div>
+
+            <div class="settings-section">
+                <div class="input-group">
+                    <label>Title</label>
+                    <input type="text" id="editTitle" placeholder="Colorful Screw #1">
+                </div>
+
+                <div class="input-group">
+                    <label>Timestamp</label>
+                    <div class="timestamp-inputs">
+                        <input type="number" id="editHours" class="timestamp-input" min="0" placeholder="HH">
+                        <span class="timestamp-separator">:</span>
+                        <input type="number" id="editMinutes" class="timestamp-input" min="0" max="59" placeholder="MM">
+                        <span class="timestamp-separator">:</span>
+                        <input type="number" id="editSeconds" class="timestamp-input" min="0" max="59" placeholder="SS">
+                    </div>
+                    <div class="help-text">Hours are optional. Leave at 0 for timestamps under 1 hour.</div>
+                </div>
+
+                <div class="input-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="editNotes" rows="4" placeholder="Add helpful notes about this screw location..."></textarea>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="saveEditScrew()">Save Changes</button>
+                <button class="btn btn-danger" onclick="closeEditScrew()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle">Confirm</h2>
+                <button class="close-btn" id="confirmModalClose">&times;</button>
+            </div>
+            <div class="settings-section">
+                <div id="confirmModalMessage" style="margin-bottom:12px;"></div>
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button class="btn" id="confirmModalCancel">Cancel</button>
+                    <button class="btn btn-danger" id="confirmModalOk">Confirm</button>
+                </div>
+            </div>
+
+                <!-- Preview Modal -->
+                <div class="modal" id="previewModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Map</h2>
+                            <button class="close-btn" id="closePreviewModal">&times;</button>
+                        </div>
+                        <div class="settings-section" id="previewBody" style="text-align:center;">
+                            <div id="previewMessage" class="notice-line">No preview available for this screw.</div>
+                            <img id="previewImage" src="" alt="Preview" style="max-width:100%; display:none; border:2px solid #333;" />
+                            <div style="margin-top:12px;">
+                                <button class="btn" id="openPreviewInTab" style="display:none;">Open in new tab</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="import.js"></script>
+    <script src="render.js"></script>
+    <script src="script.js"></script>
+    <script src="assistant.js"></script>
+</body>
+</html>

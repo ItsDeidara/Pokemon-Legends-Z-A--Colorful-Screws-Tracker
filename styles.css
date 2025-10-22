@@ -1,0 +1,569 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.header {
+    background: #1a1a1a;
+    border: 4px solid #00ff88;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 8px 8px 0 #00ff88;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00ff88;
+}
+
+.header-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn {
+    background: #1a1a1a;
+    color: #00ff88;
+    border: 3px solid #00ff88;
+    padding: 12px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.1s;
+}
+
+.btn:hover {
+    background: #00ff88;
+    color: #0a0a0a;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 #00ff88;
+}
+
+.btn:active {
+    transform: translate(0, 0);
+    box-shadow: none;
+}
+
+.toggle-collected {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: #1a1a1a;
+    border: 3px solid #00ff88;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.toggle-collected:hover {
+    background: #00ff88;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 #00ff88;
+}
+
+.toggle-collected:hover label {
+    color: #0a0a0a;
+}
+
+.toggle-collected input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #00ff88;
+}
+
+.toggle-collected label {
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #00ff88;
+}
+
+.stats {
+    background: #1a1a1a;
+    border: 4px solid #ff0088;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 8px 8px 0 #ff0088;
+}
+
+.notice {
+    background: #1a1a1a;
+    border: 4px solid #4a90e2;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 8px 8px 0 #4a90e2;
+}
+
+.notice-line {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.notice-line:last-child {
+    margin-bottom: 0;
+}
+
+.notice-link {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 2px solid #4a90e2;
+    padding-bottom: 2px;
+    transition: all 0.1s;
+}
+
+.notice-link:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+.stats-content {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    font-size: 16px;
+}
+
+.stat-value {
+    color: #ff0088;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.screw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.screw-card {
+    background: #1a1a1a;
+    border: 3px solid #666;
+    padding: 15px;
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.screw-card.collected {
+    border-color: #00ff88;
+    background: #0d1a14;
+}
+
+.screw-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 #666;
+}
+
+.screw-card.collected:hover {
+    box-shadow: 4px 4px 0 #00ff88;
+}
+
+.screw-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.checkbox-wrapper {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.checkbox-wrapper input {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-custom {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #666;
+    background: #0a0a0a;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox-wrapper input:checked + .checkbox-custom {
+    border-color: #00ff88;
+    background: #00ff88;
+}
+
+.checkbox-custom::after {
+    content: '';
+    display: none;
+    width: 8px;
+    height: 12px;
+    border: solid #0a0a0a;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-wrapper input:checked + .checkbox-custom::after {
+    display: block;
+}
+
+.screw-number {
+    font-weight: bold;
+    font-size: 18px;
+    color: #00ff88;
+    flex: 1;
+}
+
+.screw-title {
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.screw-notes {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #333;
+    font-style: italic;
+}
+
+/* Add extra separation when notes are present so action buttons don't crowd them */
+.screw-notes { margin-bottom: 12px; }
+
+.screw-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 6px;
+}
+
+/* Push action buttons to the bottom of the card for consistent alignment */
+.screw-actions {
+    margin-top: auto;
+}
+
+.screw-link {
+    flex: 1;
+    display: inline-block;
+    color: #ff0088;
+    text-decoration: none;
+    font-size: 12px;
+    border: 2px solid #ff0088;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.screw-link:hover {
+    background: #ff0088;
+    color: #0a0a0a;
+}
+
+.edit-btn {
+    background: #1a1a1a;
+    color: #00ddff;
+    border: 2px solid #00ddff;
+    padding: 6px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.edit-btn:hover {
+    background: #00ddff;
+    color: #0a0a0a;
+}
+
+.screw-actions .btn {
+    background: #1a1a1a;
+    color: #ffaa00;
+    border: 2px solid #ffaa00;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.screw-actions .btn:hover {
+    background: #ffaa00;
+    color: #0a0a0a;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    border: 4px solid #00ff88;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;
+    box-shadow: 12px 12px 0 #00ff88;
+}
+
+/* Preview modal specific tweaks */
+#previewBody img {
+    border-radius: 6px;
+    max-height: 60vh;
+}
+#previewBody #previewMessage {
+    color: #aaa;
+    margin-bottom: 8px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.modal-header h2 {
+    color: #00ff88;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #ff0088;
+    font-size: 32px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+}
+
+.settings-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #333;
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.settings-section h3 {
+    color: #ff0088;
+    margin-bottom: 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    background: #0a0a0a;
+    border: 3px solid #666;
+    color: #fff;
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: #00ff88;
+}
+
+.timestamp-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.timestamp-input {
+    width: 70px;
+    text-align: center;
+}
+
+.timestamp-separator {
+    color: #666;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.btn-danger {
+    border-color: #ff0088;
+    color: #ff0088;
+}
+
+.btn-danger:hover {
+    background: #ff0088;
+    color: #0a0a0a;
+}
+
+.hidden {
+    display: none;
+}
+
+.help-text {
+    color: #666;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.footer {
+    margin-top: 50px;
+    padding: 30px 20px;
+    background: #1a1a1a;
+    border: 4px solid #00ff88;
+    text-align: center;
+    box-shadow: 8px 8px 0 #00ff88;
+}
+
+.footer-text {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.footer-link {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 8px 16px;
+    background: #0a0a0a;
+    border: 3px solid #00ff88;
+    color: #00ff88;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.1s;
+}
+
+.footer-link:hover {
+    background: #00ff88;
+    color: #0a0a0a;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 #00ff88;
+}
+
+/* JSON Assistant specific styles */
+.assistant-tooltip {
+    position: absolute;
+    bottom: -34px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff8c00; /* orange */
+    color: #0a0a0a;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    display: none;
+}
+
+#openAssistantBtn:hover + .assistant-tooltip,
+.assistant-tooltip:hover {
+    display: block;
+}
+
+.assistant-modal .modal-content {
+    border: 4px solid #ff8c00;
+    box-shadow: 12px 12px 0 #ff8c00;
+}
+
+/* Ensure assistant modal stacks above settings modal */
+.assistant-modal {
+    z-index: 1100;
+}
+
+/* Import summary modal should be highest when visible */
+.summary-modal {
+    z-index: 1200;
+}
+
+.summary-modal .modal-content {
+    border: 4px solid #ff0088;
+    box-shadow: 12px 12px 0 #ff0088;
+}
+
+/* Inline modal messages */
+.modal-message {
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+.modal-message.error {
+    background: #2b0000;
+    color: #ffcccc;
+    border: 1px solid #ff4444;
+}
+.modal-message.success {
+    background: #0e2b00;
+    color: #ccffb3;
+    border: 1px solid #66ff33;
+}
+.modal-message.info {
+    background: #2b2200;
+    color: #fff0b3;
+    border: 1px solid #ffcc33;
+}
