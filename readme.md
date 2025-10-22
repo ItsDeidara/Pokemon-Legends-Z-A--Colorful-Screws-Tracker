@@ -18,22 +18,22 @@ About 30% of the timestamps are currently complete, with the rest when its not 2
 ## Download
 
 GitHub Repository:  
-[https://github.com/ItsDeidara/Pokemon-Legends-Z-A--Colorful-Screws-Tracker](https://github.com/ItsDeidara/Pokemon-Legends-Z-A--Colorful-Screws-Tracker)
+[https://github.com/ItsDeidara/Pokemon-Legends-Z-A--Colorful-Screws-Tracker](https://github.com/ItsDeidara/Pokemon-Legends-Z-A--Colorful-Screws-Tracker/releases)
 
 ## How to Download
 
-1. Click the green "Code" button on the repository page  
-2. Select "Download ZIP"  
+1. Visit the release pages above
+2. Select newest  zip file
 3. Extract the ZIP file to your desired location
 
 ## How to Run
 
-1. Open the extracted folder  
+1. Download the release zip file and extract the zip file  
 2. Double-click `index.html` to open it in your browser  
 3. Click the "Import" button  
 4. Select the `data.json` file inside the `data` folder
 
-You will then have access to all currently logged screws and notes.
+You will then have access to all currently logged screws, map previews and notes.
 
 ## Contributing
 
